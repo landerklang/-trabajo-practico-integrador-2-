@@ -1,4 +1,4 @@
-import { model, Types, Schema } from "mongoose";
+import { model, Schema } from "mongoose";
 
 const ArticleSchema = new Schema(
   {
@@ -11,8 +11,8 @@ const ArticleSchema = new Schema(
       default: "published",
       require: true,
     },
-    author: { type: Types.ObjectId, ref: "User" },
-    tags: [{ type: Types.ObjectId, ref: "Tags" }],
+    author: { type: Schema.Types.ObjectId, ref: "User", require: true },
+    tags: [{ type: Schema.Types.ObjectId, ref: "Tags" }],
   },
   { timestamps: true, versionKey: false }
 );
