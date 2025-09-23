@@ -1,12 +1,14 @@
-import expres from "express";
+import express from "express";
 import { connectDB } from "./src/config/database.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import { router } from "./src/routers/index.routes.js";
 
-const app = expres();
+const app = express();
 const PORT = process.env.PORT;
 
-app.use(expres.json());
+app.use(express.json());
+app.use("/api", router);
 app.use(cors({ origin: "http://localhost:4632", credentials: true }));
 app.use(cookieParser());
 

@@ -1,4 +1,4 @@
-import { model, Types, Schema } from "mongoose";
+import { model, Schema } from "mongoose";
 
 const UserSchema = new Schema(
   {
@@ -14,9 +14,10 @@ const UserSchema = new Schema(
     role: { type: String, enum: ["user", "admin"], default: "user" },
     profiler: {
       firstName: { type: String, minlenght: 2, maxlenght: 50, require: true },
-      lastname: { type: String, minlenght: 2, maxlenght: 50, require: true },
+      lastName: { type: String, minlenght: 2, maxlenght: 50, require: true },
       biography: { type: String, maxlenght: 500, require: true },
       avatarUrl: { type: String },
+      birthDate: { type: Date },
     },
   },
   { timestamps: true, versionKey: false }
