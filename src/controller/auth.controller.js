@@ -44,18 +44,72 @@ export const login = async (req, res) => {
     }
 
     const token = generatorToken({
-      id: user.id,
+      _id: user._id,
+      username: user.username,
+      role: user.role,
       firstName: user.profiler.firstName,
       lastName: user.profiler.lastName,
       biography: user.profiler.biography,
-      birthDate: user.profiler.birthDate,
-      role: user.role,
     });
 
     res.cookie("token", token, { httpOnly: true, maxAge: 1000 * 60 * 60 });
     return res.status(200).json({ ok: true, msg: "login con exito" });
   } catch (error) {
     // console.log(error);
+    return res
+      .status(500)
+      .json({ ok: false, msg: "error interno del servidor" });
+  }
+};
+
+export const getprofile = async (req, res) => {
+  try {
+    return res.json({
+      user: {
+        _id: req.user._id,
+        username: req.user.username,
+        role: req.user.role,
+        firstName: req.user.firstName,
+        lastName: req.user.lastName,
+        biography: req.user.biography,
+      },
+    });
+  } catch (error) {
+    // console.log(req.user);
+    // console.log(error);
+    return res
+      .status(500)
+      .json({ ok: false, msg: "error interno del servidor" });
+  }
+};
+
+export const updateprofile = async (req, res) => {
+  const userId = req.user._id;
+  const { profiler } = req.body;
+  try {
+    const update = await UserModel.findByIdAndUpdate(
+      userId,
+      { profiler: profiler },
+      { new: true }
+    );
+    if (update) {
+      res.status(200).json({ ok: true, data: update });
+    } else {
+      return res
+        .status(404)
+        .json({ ok: false, message: "no se encontro el perfil" });
+    }
+  } catch (error) {
+    res.status(500).json({ ok: false, msg: "error interno del servidor" });
+  }
+};
+
+export const logout = async (req, res) => {
+  try {
+    res.clearCookie("token");
+    return res.json({ msg: "logout con exito" });
+  } catch (error) {
+    console.log(error);
     return res
       .status(500)
       .json({ ok: false, msg: "error interno del servidor" });
