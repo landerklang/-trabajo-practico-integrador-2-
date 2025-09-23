@@ -23,4 +23,16 @@ const UserSchema = new Schema(
   { timestamps: true, versionKey: false }
 );
 
+UserSchema.virtual("Articles", {
+  ref: "Article",
+  localField: "_id",
+  foreignField: "author",
+});
+
+UserSchema.set("toJSON", {
+  virtuals: true,
+  transform: (doc, result) => {
+    delete result.id;
+  },
+});
 export const UserModel = model("User", UserSchema);
