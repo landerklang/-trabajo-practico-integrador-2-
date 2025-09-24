@@ -1,4 +1,3 @@
-import { matchedData } from "express-validator";
 import { ArticleModels } from "../models/article.models.js";
 
 export const createdArticle = async (req, res) => {

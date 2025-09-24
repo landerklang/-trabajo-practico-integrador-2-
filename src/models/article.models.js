@@ -1,3 +1,4 @@
+import { Result } from "express-validator";
 import { model, Schema } from "mongoose";
 
 const ArticleSchema = new Schema(
@@ -16,5 +17,18 @@ const ArticleSchema = new Schema(
   },
   { timestamps: true, versionKey: false }
 );
+
+ArticleSchema.virtual("Comment", {
+  ref: "Comment",
+  localField: "_id",
+  foreignField: "article",
+});
+
+ArticleSchema.set("toJSON", {
+  virtuals: true,
+  transform: (doc, result) => {
+    delete result.id;
+  },
+});
 
 export const ArticleModels = model("Article", ArticleSchema);
