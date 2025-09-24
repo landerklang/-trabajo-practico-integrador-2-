@@ -35,4 +35,17 @@ UserSchema.set("toJSON", {
     delete result.id;
   },
 });
+
+UserSchema.virtual("Comments", {
+  ref: "Comment",
+  localField: "_id",
+  foreignField: "author",
+});
+
+UserSchema.set("toJSON", {
+  virtuals: true,
+  transform: (doc, result) => {
+    delete result.id;
+  },
+});
 export const UserModel = model("User", UserSchema);
