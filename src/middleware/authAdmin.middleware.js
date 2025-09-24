@@ -3,7 +3,7 @@ export const authAdminMiddleware = (req, res, next) => {
   if (userlogged !== "admin") {
     return res
       .status(401)
-      .json({ msg: "useted no tienes los permisos requeridos" });
+      .json({ msg: "usted no tienes los permisos requeridos" });
   }
   next();
 };
