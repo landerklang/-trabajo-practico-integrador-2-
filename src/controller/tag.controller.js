@@ -1,25 +1,38 @@
-import { UserModel } from "../models/user.model.js";
-import { hashPassword } from "../helpers/bcrypt.helpers.js";
+import { TagsModels } from "../models/tag.models.js";
 
-export const getallUsers = async (req, res) => {
+export const createdTag = async (req, res) => {
+  const { name, description } = req.body;
   try {
-    const User = await UserModel.find().populate("Articles");
-    res.status(200).json({ ok: true, data: User });
+    const create = await TagsModels.create({
+      name: name,
+      description: description,
+    });
+    res
+      .status(201)
+      .json({ ok: true, msg: "se creó correctamente", data: create });
   } catch (error) {
-    // console.log(error);
     return res
       .status(500)
       .json({ ok: false, msg: "error interno del servidor" });
   }
 };
 
-export const getUserByPk = async (req, res) => {
+export const getAllTags = async (req, res) => {
+  try {
+    const User = await TagsModels.find();
+    res.status(200).json({ ok: true, data: User });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ ok: false, msg: "error interno del servidor" });
+  }
+};
+
+export const getTagsByPk = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const userId = await UserModel.findById(id)
-      .populate("Articles")
-      .populate("Comments");
+    const userId = await TagsModels.findById(id).populate("Articles");
     if (!userId) {
       res.status(404).json({ ok: false, msg: "no se encontro al usuario" });
     } else {
@@ -33,16 +46,14 @@ export const getUserByPk = async (req, res) => {
   }
 };
 
-export const updateUser = async (req, res) => {
+export const updateTags = async (req, res) => {
   const { id } = req.params;
-  const { username, password, gmail } = req.body;
-
-  console.log(gmail);
+  const { name, description } = req.body;
   try {
-    const hashedpassword = await hashPassword(password);
-    const update = await UserModel.findByIdAndUpdate(
+    const update = await TagsModels.findByIdAndUpdate(
       id,
-      { username, gmail, password: hashedpassword },
+      { name: name },
+      { description: description },
       { new: true }
     );
     if (update) {
@@ -58,13 +69,13 @@ export const updateUser = async (req, res) => {
   }
 };
 
-export const deletedUser = async (req, res) => {
+export const deletedTags = async (req, res) => {
   const { id } = req.params;
   try {
-    const deleted = await UserModel.findByIdAndDelete(id);
+    const deleted = await TagsModels.findByIdAndDelete(id);
     res.status(200).json({
       ok: true,
-      msg: "usuario eliminado correctamente",
+      msg: "etiqueta eliminado correctamente",
       data: deleted,
     });
   } catch (error) {
