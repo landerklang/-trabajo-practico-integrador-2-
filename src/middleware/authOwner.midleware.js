@@ -6,7 +6,7 @@ export const ownerMiddleware = async (req, res, next) => {
     // console.log(IdUser);
     return res
       .status(401)
-      .json({ message: "no eres el dueño de este articlo" });
+      .json({ message: "no eres el dueño de este articulo" });
   }
   next();
 };
