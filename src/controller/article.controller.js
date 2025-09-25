@@ -89,7 +89,11 @@ export const updateArticle = async (req, res) => {
       { title, content, excerpt, status },
       { new: true }
     );
-    return res.status(200).json({ ok: true, data: update });
+    if (!update) {
+      res.status(404).json({ ok: false, msg: "no se encontro al articulo" });
+    } else {
+      res.status(200).json({ ok: true, data: update });
+    }
   } catch (error) {
     // console.log(error);
     return res
