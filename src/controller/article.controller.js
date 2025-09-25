@@ -3,12 +3,17 @@ import { ArticleModels } from "../models/article.models.js";
 export const createdArticle = async (req, res) => {
   const { title, content, excerpt, status, tags } = req.body;
   try {
+    const role = req.user.role;
+    let userid = req.user._id;
+    if (role === "admin") {
+      userid = undefined;
+    }
     const create = await ArticleModels.create({
       title: title,
       content: content,
       excerpt: excerpt,
       status: status,
-      author: req.user._id,
+      author: userid,
       tags: tags,
     });
     res
