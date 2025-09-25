@@ -37,7 +37,7 @@ export const updateUser = async (req, res) => {
   const { id } = req.params;
   const { username, password, gmail } = req.body;
 
-  console.log(gmail);
+  // console.log(gmail);
   try {
     const hashedpassword = await hashPassword(password);
     const update = await UserModel.findByIdAndUpdate(
