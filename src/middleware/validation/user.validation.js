@@ -86,11 +86,6 @@ export const getUserByPkValidation = [
 ];
 
 export const updateProfileValidation = [
-  param("id")
-    .notEmpty()
-    .withMessage("el id es requerido en el endpoint")
-    .isMongoId()
-    .withMessage("debe de ser de tipo id"),
   body("profiler.firstName")
     .isLength({ min: 2, max: 50 })
     .withMessage("el primer nombres debe contener entre 2 a 50 caracteres")

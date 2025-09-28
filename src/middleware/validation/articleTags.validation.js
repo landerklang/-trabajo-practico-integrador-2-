@@ -1,4 +1,5 @@
 import { param } from "express-validator";
+import { TagsModels } from "../../models/tag.models.js";
 
 export const updateRelacionFromArticleValidation = [
   param("id")

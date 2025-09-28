@@ -12,17 +12,11 @@ export const createdCommentValidation = [
     .notEmpty()
     .withMessage("el article es obligatorio")
     .custom(async (value) => {
-      const articleBD = await ArticleModels.findByPk(value);
+      const articleBD = await ArticleModels.findById(value);
       if (!articleBD) {
         throw new Error("el articulo no existe");
       }
     }),
-  body("author").custom(async (value) => {
-    const userBD = await UserModel.findByPk(value);
-    if (!userBD) {
-      throw new Error("el usuario no existe");
-    }
-  }),
 ];
 
 export const getCommentByPkValidation = [
