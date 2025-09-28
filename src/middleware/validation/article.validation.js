@@ -1,4 +1,5 @@
 import { body, param } from "express-validator";
+import { TagsModels } from "../../models/tag.models.js";
 
 export const createdArticleValidation = [
   body("title")
@@ -26,6 +27,14 @@ export const createdArticleValidation = [
       );
     }
   }),
+  body("tags")
+    .optional()
+    .custom(async (value) => {
+      const tagsTb = await TagsModels.findById(value);
+      if (!tagsTb) {
+        throw new Error("debe existir la tags para añadirla");
+      }
+    }),
 ];
 export const getallUsersValidation = [];
 
@@ -72,6 +81,14 @@ export const updatearticleValidation = [
       );
     }
   }),
+  body("tags")
+    .optional()
+    .custom(async (value) => {
+      const tagsTb = await TagsModels.findById(value);
+      if (!tagsTb) {
+        throw new Error("debe existir la tags para añadirla");
+      }
+    }),
 ];
 
 export const deletedArticleValidation = [

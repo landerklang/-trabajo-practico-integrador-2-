@@ -1,5 +1,5 @@
-import { Result } from "express-validator";
 import { model, Schema } from "mongoose";
+import { CommentModels } from "./comment.models.js";
 
 const ArticleSchema = new Schema(
   {
@@ -29,6 +29,15 @@ ArticleSchema.set("toJSON", {
   transform: (doc, result) => {
     delete result.id;
   },
+});
+
+ArticleSchema.pre("findOneAndDelete", async function (next) {
+  const comment = await this.model.findOne(this.getFilter());
+
+  if (comment) {
+    await CommentModels.deleteMany({ article: comment._id });
+  }
+  next();
 });
 
 export const ArticleModels = model("Article", ArticleSchema);
