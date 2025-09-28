@@ -23,24 +23,27 @@ export const createdUserValidation = [
     .isString()
     .withMessage("el campo gmail tiene que ser de tipo string")
     .custom(async (values) => {
-      const gmailBD = await UserModel.find({ gmail: values });
+      const gmailBD = await UserModel.findOne({ gmail: values });
       if (gmailBD) {
         throw new Error("el gmail ya esta utilizado");
       }
     }),
-  body("password").notEmpty().withMessage("el password es obligatorio"),
-  body("role")
-    .isString()
-    .withMessage("el role debe de ser de tipo string")
+  body("password")
     .isStrongPassword({
       minLength: 8,
       minLowercase: 1,
       minUppercase: 1,
       minNumbers: 1,
+      minSymbols: 0,
     })
     .withMessage(
-      "debe de contener como minimo 8 caracteres ,1 mayuscula,1minuscula,1 numero"
+      "debe de contener como minimo 8 caracteres ,una mayuscula,minuscula y numero"
     )
+    .notEmpty()
+    .withMessage("el password es obligatorio"),
+  body("role")
+    .isString()
+    .withMessage("el role debe de ser de tipo string")
     .custom(async (value) => {
       const roleEnu = value;
       if (roleEnu !== "user" && roleEnu !== "admin") {

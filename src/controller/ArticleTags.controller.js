@@ -10,8 +10,8 @@ export const updaterelacionfromarticle = async (req, res) => {
       },
       { new: true }
     );
-    console.log(id);
-    console.log(tagsid);
+    // console.log(id);
+    // console.log(tagsid);
     res
       .status(200)
       .json({ ok: true, msg: "se añadio la relacion", data: updateTag });

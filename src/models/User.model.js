@@ -19,6 +19,7 @@ const UserSchema = new Schema(
       avatarUrl: { type: String },
       birthDate: { type: Date },
     },
+    deletedAt: { type: Date, default: null },
   },
   { timestamps: true, versionKey: false }
 );

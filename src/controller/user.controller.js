@@ -3,7 +3,9 @@ import { hashPassword } from "../helpers/bcrypt.helpers.js";
 
 export const getallUsers = async (req, res) => {
   try {
-    const User = await UserModel.find().populate("Articles");
+    const User = await UserModel.find({ deletedAt: "null" }).populate(
+      "Articles"
+    );
     res.status(200).json({ ok: true, data: User });
   } catch (error) {
     // console.log(error);
@@ -61,16 +63,21 @@ export const updateUser = async (req, res) => {
 export const deletedUser = async (req, res) => {
   const { id } = req.params;
   try {
-    const deleted = await UserModel.findByIdAndDelete(id);
-    res.status(200).json({
-      ok: true,
-      msg: "usuario eliminado correctamente",
-      data: deleted,
-    });
+    const deletesoft = await UserModel.findByIdAndUpdate(
+      id,
+      {
+        $set: { deletedAt: new Date() },
+      },
+      { new: true }
+    );
+    console.log(id);
+    res
+      .status(200)
+      .json({ ok: true, msg: "se elimino al usuario", data: deletesoft });
   } catch (error) {
-    return res.status(500).json({
-      ok: false,
-      msg: "error interno del servidor",
-    });
+    console.log(error);
+    return res
+      .status(500)
+      .json({ ok: false, msg: "error interno del servidor" });
   }
 };
