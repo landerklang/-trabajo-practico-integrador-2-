@@ -10,7 +10,7 @@ const PORT = process.env.PORT;
 
 app.use(express.json());
 app.use(morgan("dev"));
-app.use(cors({ origin: "http://localhost:4632", credentials: true }));
+app.use(cors({ origin: `http://localhost:${PORT}`, credentials: true }));
 app.use(cookieParser());
 
 app.use("/api", router);

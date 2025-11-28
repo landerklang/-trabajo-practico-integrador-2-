@@ -28,7 +28,7 @@ export const deleterelacionfromarticle = async (req, res) => {
     const deleteTag = await ArticleModels.findByIdAndUpdate(
       id,
       {
-        $pull: { tags: tagsid },
+        $set: { tags: tagsid },
       },
       { new: true }
     );
