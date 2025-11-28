@@ -75,7 +75,7 @@ export const updateCommet = async (req, res) => {
 export const deletedComment = async (req, res) => {
   const { id } = req.params;
   try {
-    const deleted = await CommentModelsS.findOneAndDelete(id);
+    const deleted = await CommentModels.findOneAndDelete(id);
     res
       .status(200)
       .json({ ok: true, msg: "se elimino de forma exitosa", data: deleted });

@@ -143,10 +143,9 @@ export const updateUserValidation = [
         throw new Error("el gmail ya esta utilizado");
       }
     }),
-  body("password").notEmpty().withMessage("el password es obligatorio"),
-  body("role")
-    .isString()
-    .withMessage("el role debe de ser de tipo string")
+  body("password")
+    .notEmpty()
+    .withMessage("el password es obligatorio")
     .isStrongPassword({
       minLength: 8,
       minLowercase: 1,
@@ -155,7 +154,10 @@ export const updateUserValidation = [
     })
     .withMessage(
       "debe de contener como minimo 8 caracteres ,1 mayuscula,1minuscula,1 numero"
-    )
+    ),
+  body("role")
+    .isString()
+    .withMessage("el role debe de ser de tipo string")
     .custom(async (value) => {
       const roleEnu = value;
       if (roleEnu !== "user" && roleEnu !== "admin") {
